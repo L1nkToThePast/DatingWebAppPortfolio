@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <!--Top Nav Bar-->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Grapevine", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+
+            <div class="navbar-collapse collapse">
+    <!-- Hide options if no user is logged-->
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+                <ul class="nav navbar-nav">
+                    <!--Mail, Alerts, Help-->
+                    <li>@Html.ActionLink("Mail", "Mail", "User")</li>
+                    <li>@Html.ActionLink("Alerts", "Alerts", "User")</li>
+                </ul>
+}
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+
+    <!--Lower Nav Bar(hide entire bar if no user logged)-->
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    <div class="navbar navbar-inverse navbar-fixed-lower lower">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <!--Meet me, Viewed me-->
+                    @if (ViewBag.Title == "Manage")
+                    {
+                        <li>@Html.ActionLink("Upload Picture(s)", "Photo", "Manage")</li>
+                        <li>@Html.ActionLink("View Profile", "Profile", "Manage")</li>
+
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Meet Me", "Index", "Home")</li>
+                        <li>@Html.ActionLink("Viewed me", "About", "Home")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+
+    <div class="container body-content">
+        @RenderBody()       
+        <footer>
+            <hr />
+            <p>&copy; @DateTime.Now.Year - Grapevine</p>
+        </footer>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

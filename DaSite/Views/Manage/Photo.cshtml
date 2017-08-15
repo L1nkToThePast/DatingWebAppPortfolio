@@ -1,0 +1,73 @@
+﻿@using DaSite.Helpers
+@model DaSite.Models.IndexViewModel
+@{
+    ViewBag.Title = "Manage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bodycontainer">
+    @using (Html.BeginForm("Upload", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", id = "frm_profile" }))
+    {
+        <h4>Your Images</h4>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.UserPhotoSchedule("MyInv")
+            </div>
+        </div>
+
+        <hr />
+        <h4>Image Upload</h4>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.TextBoxFor(model => model.image, new { type = "file", accept = "image/*" })
+                @Html.ValidationMessageFor(model => model.image)
+            </div>
+        </div>
+
+        // for multiple file select
+        //@Html.TextBoxFor(model => model.image, new { type = "file", accept = "image/*", multiple = "multiple" })
+
+
+    <!--Upload buttton-->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" class="btn btn-default" value="Upload" />
+            </div>
+        </div>
+
+    }
+    <div/>
+
+        @using (Html.BeginForm("SetProfPic", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", id = "frm_profile" }))
+        {
+            <!-- Modal -->
+            <div tabindex="-1" class="modal fade" id="imgModal" role="dialog" aria-hidden="true" aria-labelledby="imgModalLabel">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <img id="modalImg" src="//placehold.it/100x30" style="height:100%; width:100%" />
+                            @Html.HiddenFor(model => model.profPic)
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-primary" value="SetProfPic">
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+
+
+            <script type="text/javascript">
+                function selected(id) {
+
+                    var img = "/Content/" + id
+
+                    document.getElementById('modalImg').src = img;
+
+                    document.getElementById('profPic').value = id;
+                }
+
+            </script>
+            }

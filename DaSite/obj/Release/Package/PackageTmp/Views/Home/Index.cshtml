@@ -1,0 +1,18 @@
+﻿@using DaSite.Helpers
+@model DaSite.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@using (Html.BeginForm("transferProfile", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+        @Html.AntiForgeryToken()
+    <div class="bodycontainer">
+
+        <h3>Active Users:</h3>
+
+        @Html.ListingSchedule("MyInv")
+
+    </div>
+
+}

@@ -1,0 +1,142 @@
+﻿@using DaSite.Helpers
+@model DaSite.Models.IndexViewModel
+@{
+    ViewBag.Title = "ViewProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="bodycontainer">
+    <h4>@Html.DisplayFor(m => m.UserName)</h4>
+
+    @using (Html.BeginForm("Update", "Manage", FormMethod.Post, new { @class = "form-Horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <div class="col-md-10">
+                    <div class="image-thumb" onclick="enlarge()" data-target="#imgPModal" data-toggle="modal" style="">
+                        @if (Model.profPic == null && Model.Gender == "Male")
+                        {
+                            <img data-target="#imgPModal" id="focusImg" src="/Content/blankm.png" style="height:50%; width:50%;" />
+                        }
+                        else if (Model.profPic == null && Model.Gender == "Female")
+                        {
+                            <img data-target="#imgPModal" id="focusImg" src="/Content/blankf.png" style="height:50%; width:50%;" />
+                        }
+                        else
+                        {
+                            <img data-target="#imgPModal" id="focusImg" src="/Content/@Html.DisplayFor(m => m.profPic)" style="height:50%; width:50%;" />
+                        }
+                    </div>
+
+                    <hr />
+                    @Html.VeiwerPhotoSchedule("MyInv")
+                </div>
+            </div>
+
+            <hr />
+
+
+            <!--Gender-->
+            <div class="form-group">
+                @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(m => m.Gender)
+                </div>
+            </div>
+
+            <!--Ethnicity-->
+            <div class="form-group">
+                @Html.LabelFor(m => m.Ethnicity, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(m => m.Ethnicity)
+                </div>
+            </div>
+
+            <!--Age(fix this)-->
+            <div class="form-group">
+                @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(m => m.BirthDate)
+                </div>
+            </div>
+
+            <!--Locational forms-->
+            <!--Country-->
+            <div class="form-group">
+                @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(m => m.Country)
+                </div>
+            </div>
+            <!--Province-->
+            <div class="form-group">
+                @Html.LabelFor(m => m.Province, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(m => m.Province)
+                </div>
+            </div>
+
+            <!--City-->
+            <div class="form-group">
+                @Html.LabelFor(m => m.City, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(m => m.City)
+                </div>
+            </div>
+
+            <!--Seeking-->
+            <div class="form-group">
+                @Html.LabelFor(m => m.Seeking, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(m => m.Seeking)
+                </div>
+            </div>
+
+            <!--Bio-->
+            <div class="form-group">
+                @Html.LabelFor(m => m.Bio, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DisplayFor(m => m.Bio, new { @class = "biobox" })
+                </div>
+            </div>
+
+        </div> <!--End body div-->
+
+
+        <!-- Modal -->
+        <div tabindex="-1" class="modal fade" id="imgPModal" role="dialog" aria-hidden="true" aria-labelledby="imgModalLabel">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <img id="modalImg" src="//placehold.it/100x30" style="height:100%; width:100%" />
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <script type="text/javascript">
+
+            function selected(id) {
+
+                var img = "/Content/" + id
+
+                document.getElementById('focusImg').src = img;
+
+                document.getElementById('profPic').value = id;
+            }
+
+            function enlarge() {
+                var focusToImg = document.getElementById('focusImg').src;
+
+                document.getElementById('modalImg').src = focusToImg;
+            }
+        </script>
+    }
+</div>
+
