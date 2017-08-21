@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <!--Gender-->
+    <!--Gender-->
         <div class="form-group">
             @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
@@ -53,6 +53,7 @@
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
             </div>
         </div>
+
     <!--Password-->
         <div class="form-group">
             @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
@@ -63,14 +64,21 @@
         <div class="form-group">
             @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
+
                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
             </div>
         </div>
 
+     <!--Birth Date-->
         <div class="form-group">
             @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
+                <!--Month-->
+                @Html.DropDownListFor(m => m.Month, new SelectList(Model.MonthItems, "Value", "Text"))
+                <!--Day-->
+                @Html.DropDownListFor(m => m.Day, Enumerable.Range(1, 31).Select(i => new SelectListItem { Text = i.ToString(), Value = i.ToString() }))
+                <!--Year-->
+                @Html.DropDownListFor(m => m.Year, Enumerable.Range(0, (1999 - 1907)).Select(i => new SelectListItem { Text = (1999 - i).ToString(), Value = (1999 - i).ToString() }))
             </div>
         </div>
 

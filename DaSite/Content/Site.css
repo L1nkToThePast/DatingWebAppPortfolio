@@ -10,20 +10,6 @@ footer {
    color:#999999;
 }
 
-.bannerleft {
-    position:absolute;
-    left: 0;
-    height: 50px;
-    width: 78px;
-}
-
-.bannerright {
-    position: absolute;
-    right: 0px;
-    height: 50px;
-    width: 78px;
-}
-
 .bodycontainer {
     margin-top:10px;
     background-color: #eeeeee;

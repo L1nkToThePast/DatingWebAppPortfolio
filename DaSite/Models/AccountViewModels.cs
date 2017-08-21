@@ -195,6 +195,32 @@ namespace DaSite.Models
         //new
         public DateTime BirthDate { get; set; }
 
+        //Birth Date vars
+        //Month
+        public IEnumerable<GenItem> MonthItems =
+            new List<GenItem>
+                {
+                    new GenItem { Value="1", Text="January"},
+                    new GenItem { Value="2", Text="February"},
+                    new GenItem { Value="3", Text ="March"},
+                    new GenItem { Value="4", Text ="April"},
+                    new GenItem { Value="5", Text ="May"},
+                    new GenItem { Value="6", Text ="June"},
+                    new GenItem { Value="7", Text ="July"},
+                    new GenItem { Value="8", Text ="August"},
+                    new GenItem { Value="9", Text ="September"},
+                    new GenItem { Value="10", Text ="October"},
+                    new GenItem { Value="11", Text ="November"},
+                    new GenItem { Value="12", Text ="December"}
+                };
+
+        public int Month { get; set; }
+
+        //Day
+        public int Day { get; set; }
+        //Year
+        public int Year { get; set; }
+
     }
 
 

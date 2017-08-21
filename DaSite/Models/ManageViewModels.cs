@@ -17,9 +17,13 @@ namespace DaSite.Models
 
     public class IndexViewModel
     {
+        public string response { get; set; }
+
         public HttpPostedFileBase image { get; set; }
 
         public string  profPic { get; set; }
+
+        public string deletePic { get; set; }
         //profile data
         public string selectedValue { get; set; }
 
@@ -155,6 +159,33 @@ namespace DaSite.Models
         
         //BirthDate 
         public DateTime BirthDate { get; set; }
+
+        //Birth Date vars
+        //Month
+        public IEnumerable<GenItem> MonthItems =
+            new List<GenItem>
+                {
+                    new GenItem { Value="1", Text="January"},
+                    new GenItem { Value="2", Text="February"},
+                    new GenItem { Value="3", Text ="March"},
+                    new GenItem { Value="4", Text ="April"},
+                    new GenItem { Value="5", Text ="May"},
+                    new GenItem { Value="6", Text ="June"},
+                    new GenItem { Value="7", Text ="July"},
+                    new GenItem { Value="8", Text ="August"},
+                    new GenItem { Value="9", Text ="September"},
+                    new GenItem { Value="10", Text ="October"},
+                    new GenItem { Value="11", Text ="November"},
+                    new GenItem { Value="12", Text ="December"}
+                };
+
+        public int Age { get; set; }
+
+        public int Year { get; set; }
+
+        public int Month { get; set; }
+
+        public int Day { get; set; }
 
 
         //authentication data

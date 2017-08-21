@@ -35,13 +35,15 @@
                 <input type="submit" class="btn btn-default" value="Upload" />
             </div>
         </div>
-
+        
     }
-    <div/>
+    
+    </div>
 
-        @using (Html.BeginForm("SetProfPic", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", id = "frm_profile" }))
-        {
+
             <!-- Modal -->
+@using (Html.BeginForm("SetProfPic", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", id = "frm_profile" }))
+{
             <div tabindex="-1" class="modal fade" id="imgModal" role="dialog" aria-hidden="true" aria-labelledby="imgModalLabel">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -51,15 +53,36 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
-                            <input type="submit" class="btn btn-primary" value="SetProfPic">
+                            <input type="submit" class="btn btn-primary" value="Set as Profile Pic">                    
+                            <input onclick="deletethis()" type="submit" class="btn btn-primary" value="Delete" data-target="#sureModal" data-toggle="modal">
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
 
 
+}
 
-            <script type="text/javascript">
+@using (Html.BeginForm("Delete", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data", id = "frm_profile" }))
+{
+    <div tabindex="-1" class="modal fade" id="sureModal" role="dialog" aria-hidden="true" aria-labelledby="imgModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Are you sure?</p>
+                    @Html.HiddenFor(model => model.deletePic)
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" type="button" data-dismiss="modal">No</button>
+                    <input  type="submit" class="btn btn-primary" value="Delete">
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+}
+
+
+<script type="text/javascript">
                 function selected(id) {
 
                     var img = "/Content/" + id
@@ -69,5 +92,10 @@
                     document.getElementById('profPic').value = id;
                 }
 
-            </script>
-            }
+                function deletethis() {
+
+                    var img = document.getElementById('profPic').value;
+
+                    document.getElementById('deletePic').value = img;
+                }
+</script>

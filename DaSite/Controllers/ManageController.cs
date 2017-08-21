@@ -10,7 +10,6 @@ using DaSite.Models;
 using System.Collections.Generic;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.IO;
-using System.Data.Entity;
 
 namespace DaSite.Controllers
 {
@@ -87,6 +86,8 @@ namespace DaSite.Controllers
                 Province = displayModel.Province,
                 //PostalCode = displayModel.PostalCode,
 
+                Age = 2017 - displayModel.BirthDate.Year,
+
                 profPic = displayModel.ProfilePic,
             };
 
@@ -95,7 +96,64 @@ namespace DaSite.Controllers
         }
 
         //
-        //photo upload
+        ////POST: /Manage/MultiAction
+
+
+        //
+        //POST: /Manage/Photo Delete
+        [HttpPost]
+        public async Task<ActionResult> Delete(IndexViewModel returnPic)
+        {
+
+            if (returnPic.deletePic != null)
+            {
+                //get filePath
+                string filePath = Path.Combine(Server.MapPath("~/Content"), Path.GetFileName(returnPic.deletePic));
+
+                var userId = User.Identity.GetUserId();
+                var db = new ApplicationDbContext();
+
+                ApplicationUser umodel = UserManager.FindById(User.Identity.GetUserId());
+
+                //delete pic data to the db
+                var newtchr = db.Photos.Where(t => t.PathId == returnPic.deletePic)
+                                .FirstOrDefault<Photos>();
+                db.Photos.Remove(newtchr);
+                var result = db.SaveChanges();
+
+                //Delete the photo
+                System.IO.File.Delete(filePath);
+
+                
+
+                //Give User a Placeholder Photo
+                if (umodel.ProfilePic == returnPic.deletePic)
+                {
+
+                    var item = db.Photos.Where(i => i.EmailId == userId)
+                        .FirstOrDefault<Photos>();
+                    if (item == null)
+                    {
+                        if (umodel.Gender == "Male")
+                            umodel.ProfilePic = "blankm.png";
+                        else if (umodel.Gender == "Female")
+                            umodel.ProfilePic = "blankf.png";
+                    }
+                    else
+                        umodel.ProfilePic = item.PathId;
+                }
+                
+                //set data to the db
+                var result1 = await UserManager.UpdateAsync(umodel);
+      
+                return RedirectToAction("Photo", "Manage");
+            }
+
+            return RedirectToAction("Photo", "Manage");
+        }
+
+        //
+        //POST: /Manage/Photo Upload
         [HttpPost]
         public async Task<ActionResult> Upload(HttpPostedFileBase image)
         {
@@ -117,7 +175,7 @@ namespace DaSite.Controllers
                 var result = db.SaveChanges();
 
                 //if the user has no current profile picture set, make this one the default
-                if(umodel.ProfilePic == null)
+                if (umodel.ProfilePic == null)
                 {
 
                     umodel.ProfilePic = image.FileName;
@@ -204,7 +262,13 @@ namespace DaSite.Controllers
                 //UserData
                 UserName = Updatemodel.UserName,
                 Email = Updatemodel.Email,
+
+                //Date of Birth
+                //DateTime updateDate = new DateTime(model.Year, model.Month, model.Day),
                 BirthDate = Updatemodel.BirthDate,
+                Month = Updatemodel.BirthDate.Month,
+                Year = Updatemodel.BirthDate.Year,
+                Day = Updatemodel.BirthDate.Day,
 
                 Gender = Updatemodel.Gender,
                 //Tyes
@@ -250,8 +314,10 @@ namespace DaSite.Controllers
                 umodel.Gender = model.Gender;
                 umodel.Ethnicity = model.Ethnicity;
 
-                umodel.BirthDate = model.BirthDate;
-
+                DateTime updateDate = new DateTime(model.Year, model.Month, model.Day);
+                
+                umodel.BirthDate = updateDate;
+                
                 umodel.Seeking = model.Seeking;
                 umodel.Bio = model.Bio;
 
@@ -275,7 +341,7 @@ namespace DaSite.Controllers
             //}
 
             // If we got this far, something failed, redisplay form
-            return RedirectToAction("Index", "Home");
+            return View(model);
             //return View(model);
         }
 
